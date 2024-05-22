@@ -1,0 +1,22 @@
+name: example-node-versions
+on:
+  push:
+    branches:
+      - 'main'
+  
+jobs:
+  building:
+    runs-on: ubuntu-latest
+    # let's make sure Cypress works on several versions of Node
+    strategy:
+      matrix:
+        node: [18, 20, 21, 22]
+    name: Cypress E2E on Node v${{ matrix.node }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node -v
+      - run: npm -v
